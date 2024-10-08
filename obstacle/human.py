@@ -38,29 +38,3 @@ class Human:
         rl.draw_circle(int(self.current_position[0]), int(self.current_position[1]), 20, rl.DARKBLUE)
         rl.draw_line_ex(self.start_position,self.end_position,4,rl.DARKBLUE)
 
-
-def main():
-    rl.init_window(800, 600, "Car Animation")
-    rl.set_target_fps(60)
-
-    start_position = (100, 300)
-    end_position = (700, 300)
-    speed = 5  
-    wait_time = 2  
-
-    car = Human(start_position, end_position, speed, wait_time)
-
-    while not rl.window_should_close():
-        car.update()
-
-        rl.begin_drawing()
-        rl.clear_background(rl.RAYWHITE)
-        
-        car.draw()
-
-        rl.end_drawing()
-
-    rl.close_window()
-
-if __name__ == "__main__":
-    main()

@@ -6,4 +6,4 @@ class Wall:
         self.positions = positions
     def draw(self):
         if len(self.positions) > 1:
-            rl.draw_line_strip(self.positions, len(self.positions), rl.BLACK)
+            rl.draw_line_strip(self.positions, len(self.positions), rl.WHITE)

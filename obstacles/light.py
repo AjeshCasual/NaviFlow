@@ -10,7 +10,7 @@ class TrafficLight:
         # Set default change times if not provided
         if change_time is None:
             self.change_time = {
-                "red": 5,
+                "red": 500,
                 "yellow": 2,
                 "green": 5
             }

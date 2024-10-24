@@ -1,64 +1,100 @@
 import pyray as rl
+import math
 from obstacles.car import Car
 from obstacles.wall import Wall
 from obstacles.light import TrafficLight
 from obstacles.human import Human
-import ctypes
+import random
+import player
+# Initialize the Raylib window dimensions
+WINDOW_WIDTH = 800
+WINDOW_HEIGHT = 600
+
+
+
 
 def main():
-    rl.init_window(800, 600, "Traffic Simulator Editor")
+    # Initialize the Raylib window
+    rl.init_window(WINDOW_WIDTH, WINDOW_HEIGHT, "Traffic Simulator")
     rl.set_target_fps(60)
+    controllable_car = player.ControllableCar(position=[0, 250], speed=5)
+    # Wall positions as specified
+    wall_pos = [
+        [(0,230),(280,230)],
+        [(280,230),(280,0)],
+        [(0,350),(280,350)],
+        [(280,350),(280,600)],
+        [(460,600),(460,450)],
+        [(460,390),(460,350)],
+        [(460,350),(520,350)],
+        [(460,390),(520,350)],
+        [(460,450),(590,350)],
+        [(590,350),(710,350)],
+        [(710,350),(710,600)],
+        [(460,0),(460,230)],
+        [(460,230),(630,230)],
+        [(630,230),(630,0)],
+        [(700,0),(700,230)],
+        [(700,230),(800,230)],
+        [(350,280),(375,255)],
+        [(350,280),(375,310)],
+        [(375,310),(400,280)],
+        [(400,280),(375,255)]
 
-    obstacles = []
-    obstacle_types = ["Car", "Wall", "Traffic Light", "Human"]
-    
-    # Create an integer pointer for the combo box index
-    obstacle_type_index = ctypes.c_int(0)
+    ]
+    car_paths = [
+    [(310, 600), (310, 320) , (0,320)],
+    [(650,0),(650,230)],
+    [(730,600),(730,330),(573,330),(440,430),(440,600)],
+    [(0,250),(310,250),(375,200),(440,250),(800,250)]
 
-    # Default parameters
-    car_positions = [(100, 100), (200, 200)]
-    human_start = (300, 300)
-    human_end = (400, 400)
-    speed = 5
-    wait_time = 2
-    traffic_light_start = (500, 300)
-    traffic_light_end = (500, 350)
+]
 
+    # Create walls from the positions
+    walls = [Wall(positions) for positions in wall_pos]
+
+    # Create some example objects
+    cars = [Car(path, speed=random.randint(1,5), wait_time=1) for path in car_paths]
+    traffic_lights = [
+        TrafficLight((630,230), (700, 230)),
+    ]
+    humans = [
+        Human((250,80),(480,80), speed=1, wait_time=2),
+    ]
+
+    # Main game loop
     while not rl.window_should_close():
         # Update
-        for obstacle in obstacles:
-            if isinstance(obstacle, Car):
-                obstacle.update()
-            elif isinstance(obstacle, TrafficLight):
-                obstacle.update()
-            elif isinstance(obstacle, Human):
-                obstacle.update()
+        for car in cars:
+            car.update()
+        for human in humans:
+            human.update()
+        for traffic_light in traffic_lights:
+            traffic_light.update()
 
-        # GUI Drawing
+        # Draw
         rl.begin_drawing()
-        rl.clear_background(rl.RAYWHITE)
+        rl.clear_background(rl.BLACK)
 
-        # Draw obstacles
-        for obstacle in obstacles:
-            obstacle.draw()
+        # Draw walls
+        for wall in walls:
+            wall.draw()
+        
+        # Draw traffic lights
+        for traffic_light in traffic_lights:
+            traffic_light.draw()
 
-        # GUI elements
-        obstacle_type_index = rl.gui_combo_box((10, 10, 150, 20), "Obstacle Type:", obstacle_types, obstacle_type_index.value)
+        # Draw cars
+        for car in cars:
+            car.draw()
 
-        if rl.is_mouse_button_pressed(rl.MOUSE_LEFT_BUTTON):
-            selected_type = obstacle_types[obstacle_type_index.value]
-            if selected_type == "Car":
-                obstacles.append(Car(car_positions, speed, wait_time))
-            elif selected_type == "Wall":
-                wall_positions = [(100, 100), (150, 150)]  # Example positions
-                obstacles.append(Wall(wall_positions))
-            elif selected_type == "Traffic Light":
-                obstacles.append(TrafficLight(traffic_light_start, traffic_light_end))
-            elif selected_type == "Human":
-                obstacles.append(Human(human_start, human_end, speed, wait_time))
+        # Draw humans
+        for human in humans:
+            human.draw()
 
         rl.end_drawing()
 
+    # Close window and deallocate resources
     rl.close_window()
 
 if __name__ == "__main__":

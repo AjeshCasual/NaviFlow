@@ -55,10 +55,10 @@ class Car:
 
     def draw(self):
         # Draw the car at the current position
-        rl.draw_circle(int(self.current_position[0]), int(self.current_position[1]), 20, rl.DARKBLUE)
+        rl.draw_circle(int(self.current_position[0]), int(self.current_position[1]), 15, rl.DARKBLUE)
 
         # Draw the path taken by the car
-        if len(self.positions) > 1:
-            rl.draw_line_strip(self.positions, len(self.positions), rl.BLACK)
+"""         if len(self.positions) > 1:
+            rl.draw_line_strip(self.positions, len(self.positions), rl.DARKBLUE)
 
-
+"""

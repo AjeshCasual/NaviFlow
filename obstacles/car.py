@@ -58,7 +58,7 @@ class Car:
         rl.draw_circle(int(self.current_position[0]), int(self.current_position[1]), 15, rl.DARKBLUE)
 
         # Draw the path taken by the car
-"""         if len(self.positions) > 1:
+        if len(self.positions) > 1:
             rl.draw_line_strip(self.positions, len(self.positions), rl.DARKBLUE)
 
-"""
+

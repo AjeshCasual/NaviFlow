@@ -45,5 +45,5 @@ class Human:
     def draw(self):
         rl.draw_circle(int(self.current_position[0]), int(self.current_position[1]), 15, rl.YELLOW)
 
-        #rl.draw_line_ex(self.start_position,self.end_position,1,rl.YELLOW)
+        rl.draw_line_ex(self.start_position,self.end_position,1,rl.YELLOW)
 
